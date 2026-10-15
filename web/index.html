@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contatos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <!-- Entrar / Solicitar acesso -->
+    <section id="view-auth" hidden>
+      <h1>Contatos</h1>
+      <div class="tabs" role="tablist">
+        <button type="button" id="tab-login" role="tab" aria-selected="true">Entrar</button>
+        <button type="button" id="tab-register" role="tab" aria-selected="false">Solicitar acesso</button>
+      </div>
+
+      <form id="form-login" autocomplete="on">
+        <label>E-mail <input name="email" type="email" required autocomplete="username"></label>
+        <label>Senha <input name="password" type="password" required autocomplete="current-password"></label>
+        <button type="submit">Entrar</button>
+      </form>
+
+      <form id="form-register" autocomplete="on" hidden>
+        <label>Nome completo <input name="full_name" type="text" required minlength="2" maxlength="120" autocomplete="name"></label>
+        <label>E-mail <input name="email" type="email" required autocomplete="username"></label>
+        <label>Senha <input name="password" type="password" required minlength="12" autocomplete="new-password"></label>
+        <p class="hint">Mínimo de 12 caracteres. Use uma frase longa.</p>
+        <button type="submit">Solicitar acesso</button>
+      </form>
+
+      <p id="msg" role="alert"></p>
+    </section>
+
+    <!-- Aguardando aprovação (atualiza sozinho via Realtime) -->
+    <section id="view-waiting" hidden>
+      <h1>Solicitação enviada</h1>
+      <p>Aguardando um administrador aprovar seu acesso. Esta tela atualiza sozinha, não precisa recarregar.</p>
+      <p class="pulse" aria-live="polite">Aguardando aprovação…</p>
+      <button type="button" class="link" data-action="logout">Sair</button>
+    </section>
+
+    <!-- Área logada (contatos entram na quinta) -->
+    <section id="view-app" hidden>
+      <header>
+        <h1 id="app-title"></h1>
+        <button type="button" class="link" data-action="logout">Sair</button>
+      </header>
+      <p id="app-role"></p>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
