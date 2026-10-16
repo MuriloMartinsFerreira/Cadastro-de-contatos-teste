@@ -2,6 +2,8 @@
 
 Aplicação web com dois perfis, **administrador** e **operador**. Operadores pedem acesso pela tela de login, aguardam aprovação em tempo real e cadastram contatos; o administrador aprova acessos, cria usuários, é notificado a cada contato novo e acompanha um dashboard.
 
+**Aplicação publicada:** https://cadastro-de-contatos-teste.vercel.app/
+
 Documentação complementar: [`docs/ARQUITETURA.md`](docs/ARQUITETURA.md) (requisitos, UML, modelo de dados, ameaças, escalabilidade) e [`docs/DECISOES.md`](docs/DECISOES.md) (decisões com prós e contras).
 
 ## Requisitos atendidos
