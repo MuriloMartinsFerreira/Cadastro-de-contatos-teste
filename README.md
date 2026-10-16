@@ -30,6 +30,21 @@ Frontend estático (HTML, CSS, JavaScript) · Supabase (Auth, PostgreSQL com RLS
 - Mensagens de erro de login genéricas; frontend sem `innerHTML`; CSP restritiva e demais cabeçalhos em `vercel.json`.
 - Auditoria de cadastros, contatos e mudanças de status na tabela `audit_log`.
 
+## Escopo implementado e limitações da interface
+
+**Implementado e verificável na aplicação:**
+- Login com os perfis de administrador e operador.
+- Solicitação pública de acesso, aprovação/recusa pelo administrador e atualização em tempo real.
+- Criação de usuários pelo administrador e cadastro de contatos pelo operador.
+- Notificações em tempo real, dashboard e listagem paginada de contatos.
+- Registro de eventos de auditoria no banco, na tabela `audit_log`.
+
+**Ainda não disponível como tela/ação no painel:**
+- Consultar e filtrar os registros de auditoria pela interface. Os eventos são gravados no banco, mas a tela de auditoria ainda não foi implementada.
+- Listar todos os usuários e bloquear/reativar contas por meio de uma tela administrativa. As políticas RLS respeitam o status da conta, mas a interface para administrar esses status ainda não existe.
+
+Essas duas limitações são importantes: o registro de auditoria e as regras de autorização estão implementados, mas isso não significa que exista uma interface administrativa para consultá-los ou operá-los.
+
 ## Como executar
 
 **Pré-requisitos:** conta gratuita no [Supabase](https://supabase.com), Node.js 18+ (só para servir arquivos estáticos) e, opcionalmente, o [Supabase CLI](https://supabase.com/docs/guides/cli) para publicar a função.
@@ -41,7 +56,7 @@ Frontend estático (HTML, CSS, JavaScript) · Supabase (Auth, PostgreSQL com RLS
 5. **Subir localmente:** `npx serve web` (ou `python3 -m http.server -d web 3000`) e abrir o endereço indicado.
 6. **Criar o primeiro admin:** na aba "Solicitar acesso", cadastre sua conta; no SQL Editor, rode `update public.profiles set role = 'admin', status = 'active' where email = 'SEU_EMAIL';`
 7. **Rodar `supabase/migrations/002_dashboard_seed.sql`** (cria o dashboard e 20 contatos de exemplo; exige ao menos um usuário ativo).
-8. **Publicar a Edge Function:** `supabase login`, `supabase link --project-ref SEU_REF`, `supabase functions deploy create-user`.
+8. **Publicar a Edge Function:** `supabase login`, `supabase link --project-ref SEU_REF`, `supabase functions deploy create-user`. Configure também o segredo `ALLOWED_ORIGIN` da função com a origem do frontend publicado, por exemplo `https://cadastro-de-contatos-teste.vercel.app` (sem barra no final). No Supabase, use Edge Functions > Secrets ou `supabase secrets set ALLOWED_ORIGIN=https://cadastro-de-contatos-teste.vercel.app`.
 9. **Deploy do frontend:** importar o repositório no Vercel (usa `vercel.json`, saída em `web/`). Em *Environment Variables*, defina `SUPABASE_URL` e `SUPABASE_ANON_KEY`: o build gera `web/config.js` a partir delas (`scripts/generate-config.mjs`, que recusa chaves secretas). Depois, adicionar a URL do site em Authentication > URL Configuration.
 
 ## Dados de demonstração (opcional)
