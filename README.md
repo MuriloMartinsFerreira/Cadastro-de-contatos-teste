@@ -56,7 +56,7 @@ Essas duas limitações são importantes: o registro de auditoria e as regras de
 5. **Subir localmente:** `npx serve web` (ou `python3 -m http.server -d web 3000`) e abrir o endereço indicado.
 6. **Criar o primeiro admin:** na aba "Solicitar acesso", cadastre sua conta; no SQL Editor, rode `update public.profiles set role = 'admin', status = 'active' where email = 'SEU_EMAIL';`
 7. **Rodar `supabase/migrations/002_dashboard_seed.sql`** (cria o dashboard e 20 contatos de exemplo; exige ao menos um usuário ativo).
-8. **Publicar a Edge Function:** `supabase login`, `supabase link --project-ref SEU_REF`, `supabase functions deploy create-user`. Configure também o segredo `ALLOWED_ORIGIN` da função com a origem do frontend publicado, por exemplo `https://cadastro-de-contatos-teste.vercel.app` (sem barra no final). No Supabase, use Edge Functions > Secrets ou `supabase secrets set ALLOWED_ORIGIN=https://cadastro-de-contatos-teste.vercel.app`.
+8. **Publicar a Edge Function:** `supabase login`, `supabase link --project-ref SEU_REF`, `supabase functions deploy create-user`. Opcionalmente, configure o segredo `ALLOWED_ORIGIN` com a origem do frontend publicado para restringir o CORS; isso não substitui a autenticação e a autorização da função.
 9. **Deploy do frontend:** importar o repositório no Vercel (usa `vercel.json`, saída em `web/`). Em *Environment Variables*, defina `SUPABASE_URL` e `SUPABASE_ANON_KEY`: o build gera `web/config.js` a partir delas (`scripts/generate-config.mjs`, que recusa chaves secretas). Depois, adicionar a URL do site em Authentication > URL Configuration.
 
 ## Dados de demonstração (opcional)
