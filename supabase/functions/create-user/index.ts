@@ -3,8 +3,13 @@
 import { createClient } from 'npm:@supabase/supabase-js@2';
 
 const cors = {
-  'Access-Control-Allow-Origin': Deno.env.get('ALLOWED_ORIGIN') ?? '*',
+  // Em produção, configure ALLOWED_ORIGIN como segredo no Supabase.
+  // O fallback mantém a função restrita ao frontend publicado.
+  'Access-Control-Allow-Origin':
+    Deno.env.get('ALLOWED_ORIGIN') ?? 'https://cadastro-de-contatos-teste.vercel.app',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Vary': 'Origin',
 };
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { ...cors, 'Content-Type': 'application/json' } });
@@ -31,7 +36,7 @@ Deno.serve(async (req) => {
   const fullName = String(b.full_name ?? '').trim();
   const password = String(b.password ?? '');
   const role = b.role === 'admin' ? 'admin' : 'operator';
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || email.length > 254) return json({ error: 'E-mail inválido.' }, 400);
+  if (!/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(email) || email.length > 254) return json({ error: 'E-mail inválido.' }, 400);
   if (fullName.length < 2 || fullName.length > 120) return json({ error: 'Nome deve ter de 2 a 120 caracteres.' }, 400);
   if (password.length < 12 || password.length > 72) return json({ error: 'Senha deve ter de 12 a 72 caracteres.' }, 400);
 
