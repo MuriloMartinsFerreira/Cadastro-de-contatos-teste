@@ -1,0 +1,21 @@
+# Configuração local (no Vercel é gerada no build a partir de variáveis de ambiente)
+web/config.js
+
+# Segredos
+.env
+.env.*
+!.env.example
+supabase/.env
+
+# Supabase CLI, Vercel e Node
+supabase/.temp/
+supabase/.branches/
+.vercel/
+node_modules/
+
+# Sistema e editores
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log

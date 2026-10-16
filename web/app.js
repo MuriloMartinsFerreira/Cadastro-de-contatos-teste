@@ -29,7 +29,7 @@ async function fetchProfile(uid) {
 
 // Decide a tela pelo status do perfil.
 async function route(session) {
-  if (!session) { stopWatching(); show('auth'); return; }
+  if (!session) { stopWatching(); App.stop(); show('auth'); return; }
   const profile = await fetchProfile(session.user.id);
   if (!profile) { await sb.auth.signOut(); return; }
 
@@ -38,7 +38,9 @@ async function route(session) {
     $('app-title').textContent = 'Olá, ' + profile.full_name;
     $('app-role').textContent = profile.role === 'admin' ? 'Administrador' : 'Operador';
     show('app');
+    App.start(sb, profile, session.user.id);
   } else if (profile.status === 'pending') {
+    App.stop();
     show('waiting');
     watchApproval(session);
   } else {

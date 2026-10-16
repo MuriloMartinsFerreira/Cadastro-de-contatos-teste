@@ -41,18 +41,59 @@
       <button type="button" class="link" data-action="logout">Sair</button>
     </section>
 
-    <!-- Área logada (contatos entram na quinta) -->
+    <!-- Área logada -->
     <section id="view-app" hidden>
       <header>
-        <h1 id="app-title"></h1>
+        <div><h1 id="app-title"></h1><p id="app-role"></p></div>
         <button type="button" class="link" data-action="logout">Sair</button>
       </header>
-      <p id="app-role"></p>
+      <div id="toasts" role="status" aria-live="polite"></div>
+
+      <div id="admin-only" hidden>
+        <h2>Resumo</h2>
+        <div id="dash"></div>
+        <h2>Solicitações de acesso</h2>
+        <ul id="pending" class="rows"></ul>
+        <h2>Novo usuário</h2>
+        <form id="form-user">
+          <label>Nome <input name="full_name" required minlength="2" maxlength="120"></label>
+          <label>E-mail <input name="email" type="email" required></label>
+          <label>Senha <input name="password" type="password" required minlength="12" maxlength="72" autocomplete="new-password"></label>
+          <label>Papel <select name="role"><option value="operator">Operador</option><option value="admin">Administrador</option></select></label>
+          <button type="submit">Criar usuário</button>
+        </form>
+      </div>
+
+      <div id="operator-only" hidden>
+        <h2>Novo contato</h2>
+        <form id="form-contact">
+          <label>Nome <input name="name" required minlength="2" maxlength="120"></label>
+          <label>E-mail <input name="email" type="email" maxlength="254"></label>
+          <label>Telefone <input name="phone" type="tel" maxlength="30"></label>
+          <label>Cidade <input name="city" maxlength="80"></label>
+          <label>Categoria <input name="category" maxlength="40"></label>
+          <button type="submit">Salvar contato</button>
+        </form>
+      </div>
+
+      <h2 id="list-title">Contatos</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Nome</th><th>E-mail</th><th>Telefone</th><th>Cidade</th><th>Categoria</th><th>Cadastrado por</th></tr></thead>
+          <tbody id="contacts"></tbody>
+        </table>
+      </div>
+      <nav class="pager" aria-label="Paginação">
+        <button type="button" id="prev">Anterior</button>
+        <span id="page-label"></span>
+        <button type="button" id="next">Próxima</button>
+      </nav>
     </section>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
   <script src="config.js"></script>
+  <script src="main.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

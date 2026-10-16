@@ -1,0 +1,11 @@
+{
+  "name": "contatos",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cadastro de contatos com perfis admin e operador (Supabase)",
+  "scripts": {
+    "start": "npx serve web",
+    "build": "node scripts/generate-config.mjs"
+  },
+  "engines": { "node": ">=18" }
+}

@@ -24,3 +24,29 @@ header { display:flex; justify-content:space-between; align-items:baseline; gap:
 .pulse { color:var(--muted); }
 @media (prefers-reduced-motion: no-preference) { .pulse { animation: p 1.6s ease-in-out infinite; } @keyframes p { 50% { opacity:.4; } } }
 :focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+/* ---- área logada ---- */
+main:has(#view-app:not([hidden])) { width:min(960px,100% - 2rem); margin:2rem 0; }
+h2 { font-size:1.05rem; margin:2rem 0 .75rem; }
+h3 { font-size:.9rem; margin:0 0 .5rem; color:var(--muted); font-weight:600; }
+#app-role { margin:-.75rem 0 0; color:var(--muted); font-size:.9rem; }
+.stats { display:flex; gap:2rem; flex-wrap:wrap; margin-bottom:1rem; }
+.stats div { display:grid; } .stats strong { font-size:1.8rem; line-height:1.1; } .stats span { color:var(--muted); font-size:.85rem; }
+#dash { display:grid; gap:1rem; } .group { max-width:480px; }
+.bar { display:grid; grid-template-columns:9rem 1fr 2rem; gap:.5rem; align-items:center; font-size:.9rem; }
+.bar span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; } .bar meter { width:100%; } .bar b { text-align:right; }
+.rows { list-style:none; margin:0; padding:0; display:grid; gap:.5rem; }
+.rows li { display:flex; gap:.5rem; align-items:center; padding:.5rem 0; border-bottom:1px solid var(--line); }
+.rows li span { flex:1; overflow-wrap:anywhere; }
+.rows button { padding:.35rem .7rem; border-radius:6px; border:1px solid var(--line); background:none; color:var(--ink); cursor:pointer; }
+.rows button.ok { border-color:var(--accent); color:var(--accent); } .rows button.no { color:var(--err); }
+#form-user, #form-contact { grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); align-items:end; }
+select { padding:.65rem .75rem; border:1px solid var(--line); border-radius:6px; background:var(--paper); color:var(--ink); font:inherit; }
+.table-wrap { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; font-size:.9rem; }
+th, td { text-align:left; padding:.55rem .6rem; border-bottom:1px solid var(--line); white-space:nowrap; } th { color:var(--muted); font-weight:600; }
+.pager { display:flex; gap:1rem; align-items:center; margin-top:1rem; }
+.pager button { padding:.4rem .9rem; border:1px solid var(--line); border-radius:6px; background:none; color:var(--ink); cursor:pointer; }
+.pager button:disabled { opacity:.4; cursor:default; }
+#toasts { position:fixed; top:1rem; right:1rem; display:grid; gap:.5rem; width:min(320px,100% - 2rem); z-index:10; }
+.toast { margin:0; padding:.75rem 1rem; background:var(--ink); color:var(--paper); border-radius:8px; font-size:.9rem; }
