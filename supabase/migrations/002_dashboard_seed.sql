@@ -1,4 +1,4 @@
--- 002: métricas do dashboard (somente admin) + seed de 25 contatos (3 páginas de 10).
+-- 002: métricas do dashboard (somente admin) + seed de 20 contatos (2 páginas de 10).
 
 create or replace function public.dashboard_metrics()
 returns jsonb
@@ -41,5 +41,5 @@ begin
          (array['Goiânia','Anápolis','Aparecida de Goiânia','Rio Verde','Brasília'])[1 + i % 5],
          (array['Cliente','Fornecedor','Parceiro'])[1 + i % 3],
          owner_id, now() - (i || ' hours')::interval
-  from generate_series(1, 25) i;
+  from generate_series(1, 20) i;
 end $$;
