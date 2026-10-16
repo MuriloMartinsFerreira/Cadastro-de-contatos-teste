@@ -12,7 +12,7 @@ Documentação complementar: [`docs/ARQUITETURA.md`](docs/ARQUITETURA.md) (requi
 | Operador solicita cadastro e espera aprovação em tempo real, sem recarregar | `signUp` cria perfil `pending`; a tela assina por WebSocket o próprio perfil e muda quando o admin aprova |
 | Admin cadastra usuários e recebe solicitações | Edge Function `create-user` e painel de solicitações com Aprovar/Recusar |
 | Operador cadastra contatos; admin é notificado em tempo real | Insert em `contacts`; o admin recebe o evento via Realtime e vê aviso na tela |
-| Listas de contatos com consulta paginada no backend, 2 páginas ou mais | `.range()` (LIMIT/OFFSET) com contagem no banco; seed de 25 contatos (3 páginas de 10) |
+| Listas de contatos com consulta paginada no backend, 2 páginas | `.range()` (LIMIT/OFFSET) com contagem no banco; seed de 20 contatos (2 páginas de 10) |
 | Segurança do login | Ver "Segurança" abaixo |
 | Extra: dashboard | Função SQL `dashboard_metrics` com atualização em tempo real |
 | Extra: deploy | Vercel (frontend) e Supabase (backend); `vercel.json` com cabeçalhos de segurança |
@@ -40,13 +40,13 @@ Frontend estático (HTML, CSS, JavaScript) · Supabase (Auth, PostgreSQL com RLS
 4. **Configurar o frontend:** copie `web/config.example.js` para `web/config.js` (ignorado pelo Git) e preencha a *Project URL* e a *anon key* (Project Settings > API). A anon key é pública por desenho: quem protege os dados é o RLS. Nunca use a `service_role` aqui.
 5. **Subir localmente:** `npx serve web` (ou `python3 -m http.server -d web 3000`) e abrir o endereço indicado.
 6. **Criar o primeiro admin:** na aba "Solicitar acesso", cadastre sua conta; no SQL Editor, rode `update public.profiles set role = 'admin', status = 'active' where email = 'SEU_EMAIL';`
-7. **Rodar `supabase/migrations/002_dashboard_seed.sql`** (cria o dashboard e 25 contatos de exemplo; exige ao menos um usuário ativo).
+7. **Rodar `supabase/migrations/002_dashboard_seed.sql`** (cria o dashboard e 20 contatos de exemplo; exige ao menos um usuário ativo).
 8. **Publicar a Edge Function:** `supabase login`, `supabase link --project-ref SEU_REF`, `supabase functions deploy create-user`.
 9. **Deploy do frontend:** importar o repositório no Vercel (usa `vercel.json`, saída em `web/`). Em *Environment Variables*, defina `SUPABASE_URL` e `SUPABASE_ANON_KEY`: o build gera `web/config.js` a partir delas (`scripts/generate-config.mjs`, que recusa chaves secretas). Depois, adicionar a URL do site em Authentication > URL Configuration.
 
 ## Dados de demonstração (opcional)
 
-`supabase/scripts/reset_demo.sql` **apaga todos os usuários, contatos e a auditoria** e recria um administrador (`marina.duarte@exemplo.com`), um operador (`rafael.nogueira@exemplo.com`) e os 25 contatos de exemplo. As senhas não ficam no repositório: edite-as na sua cópia local antes de rodar (o script se recusa a executar com a senha-modelo). Somente para ambientes de teste.
+`supabase/scripts/reset_demo.sql` **apaga todos os usuários, contatos e a auditoria** e recria um administrador (`marina.duarte@exemplo.com`), um operador (`rafael.nogueira@exemplo.com`) e os 20 contatos de exemplo. As senhas não ficam no repositório: edite-as na sua cópia local antes de rodar (o script se recusa a executar com a senha-modelo). Somente para ambientes de teste.
 
 ## Roteiro de verificação
 
@@ -55,7 +55,7 @@ Use duas janelas (uma anônima), uma com admin e outra com operador.
 1. Cadastro de operador: a janela do admin mostra aviso e a solicitação na lista, sem recarregar.
 2. Admin aprova: a tela de espera do operador muda sozinha para a área de contatos.
 3. Operador salva um contato: o admin recebe aviso, e lista e dashboard atualizam sozinhos.
-4. Listas: botões Anterior/Próxima mostram 3 páginas com o seed; o operador vê só os próprios contatos e o admin vê todos.
+4. Listas: botões Anterior/Próxima mostram 2 páginas com o seed; o operador vê só os próprios contatos e o admin vê todos.
 5. Admin cria usuário pelo formulário e esse usuário consegue entrar.
 6. Admin recusa uma solicitação: esse usuário não acessa dados (RLS).
 
